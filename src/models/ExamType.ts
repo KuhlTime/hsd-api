@@ -1,11 +1,38 @@
 enum ExamType {
-  KL = 'KL',
-  M = 'M',
-  BP_R = 'BP-R',
-  BP_V = 'BP-V',
-  BP_HA = 'BP-HA',
-  BP_P = 'BP-P',
-  BP_PB = 'BP-PB'
+  /**
+   * Schriftliche Klausurarbeit
+   */
+  Exam = 'KL',
+
+  /**
+   * Mündliche Prüfung
+   */
+  Aural = 'M',
+
+  /**
+   * Besondere Prüfungsleistung-Referat
+   */
+  Presentation = 'BP-R',
+
+  /**
+   * Besondere Prüfungsleistung-Vortrag
+   */
+  Speech = 'BP-V',
+
+  /**
+   * Besondere Prüfungsleistung-Hausarbeit
+   */
+  Assignment = 'BP-HA',
+
+  /**
+   * Besondere Prüfungsleistung-Protokoll
+   */
+  Protocol = 'BP-P',
+
+  /**
+   * Besondere Prüfungsleistung-Projektbericht
+   */
+  ProjectReport = 'BP-PB'
 }
 
 export default ExamType
