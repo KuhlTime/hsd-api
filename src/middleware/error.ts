@@ -1,4 +1,3 @@
-import status from 'http-status'
 import { Request, Response, NextFunction } from 'express'
 import httpStatus from 'http-status'
 import env from '@env'
@@ -13,6 +12,8 @@ export const converter = (err: Error, req: Request, res: Response, next: NextFun
   let error = err
   const isAPIError = error instanceof APIError
 
+  // When the error is not already an APIError convert it
+  // to an APIError
   if (!isAPIError) {
     const statusCode = httpStatus.INTERNAL_SERVER_ERROR
     const message = error.message || httpStatus[statusCode].toString()
@@ -26,7 +27,7 @@ export const converter = (err: Error, req: Request, res: Response, next: NextFun
 /**
  * Send the actual APIError to the client
  */
-export const handler = (err: APIError, req: Request, res: Response, next: NextFunction): void => {
+export const handler = (err: APIError, req: Request, res: Response): void => {
   log.error(err.message)
 
   res.status(err.statusCode).send({
