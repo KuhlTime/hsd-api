@@ -1,4 +1,4 @@
-import { ErrorRequestHandler, json, RequestHandler, urlencoded } from 'express'
+import { json, RequestHandler, urlencoded } from 'express'
 import cors from 'cors'
 import compression from 'compression'
 import log from '@log'
@@ -6,7 +6,7 @@ import Sentry from '@config/sentry'
 import env from '@env'
 import app from '@config/express'
 import Router from '@/routes'
-import * as middleware from '@/middleware'
+import * as middleware from '@/middlewares'
 
 // == Middlewares ==
 
@@ -36,10 +36,10 @@ app.use(middleware.notFound)
 // == Error Handling ==
 
 // sentry error handler. (must be the first error handler)
-app.use(Sentry.Handlers.errorHandler() as ErrorRequestHandler)
+app.use(Sentry.Handlers.errorHandler())
 
 // convert any error to an APIError, if needed
-app.use(middleware.error.converter as ErrorRequestHandler)
+app.use(middleware.error.converter)
 
 // return the error as JSON
 app.use(middleware.error.handler)
