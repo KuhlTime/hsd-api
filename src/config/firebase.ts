@@ -5,8 +5,9 @@ admin.initializeApp({
   credential: admin.credential.cert(env.firebaseServiceAccount)
 })
 
-exports.admin = admin
-exports.db = admin.firestore()
-exports.auth = admin.auth()
-exports.storage = admin.storage()
-exports.messaging = admin.messaging()
+const db = admin.firestore()
+const auth = admin.auth()
+const storage = admin.storage()
+const messaging = admin.messaging()
+
+export { admin, db, auth, storage, messaging }
