@@ -11,7 +11,7 @@ if (!env.sentryDsn) {
   // https://docs.sentry.io/platforms/node/configuration/options/
   Sentry.init({
     dsn: env.sentryDsn,
-    debug: env.nodeEnv === 'development',
+    // debug: env.nodeEnv === 'development',
     integrations: [
       // enable HTTP calls tracing
       new Sentry.Integrations.Http({ tracing: true }),
