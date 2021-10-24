@@ -33,9 +33,9 @@ const converter = (err: Error, req: Request, res: Response, next: NextFunction):
 /**
  * Send the actual APIError to the client
  */
-const handler = (err: APIError, _req: Request, res: any, _next: NextFunction): void => {
+const handler = (err: APIError, req: Request, res: any, _next: NextFunction): void => {
   const { statusCode, message } = err
-  log.error(err.message)
+  log.error(`${req.path}: ${err.statusCode} - ${err.message}`)
 
   res.locals.errorMessage = err.message
 
