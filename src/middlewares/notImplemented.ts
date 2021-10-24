@@ -8,12 +8,12 @@ import randomValue from '@/lib/randomArrayValue'
  */
 export default (req: Request, res: Response, next: NextFunction): void => {
   const error = new APIError(
-    httpStatus.NOT_FOUND,
+    httpStatus.NOT_IMPLEMENTED,
     randomValue([
-      'It is not the end of the world, but certainitly the end of this website. 😪',
-      'There is nothing to see here 🤐.',
-      'Great you found NOTHINGNESS. 😑',
-      "It's empty here. 😶"
+      'You found something that is not there yet. 😮',
+      'Are you from the future? That route is not implmented yet. 😳',
+      'This route is not implemented yet. 😶‍🌫️',
+      'The developer was lazy and has not implmented this route yet. 😡'
     ])
   )
   next(error)
