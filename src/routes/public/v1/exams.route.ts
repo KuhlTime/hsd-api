@@ -1,15 +1,12 @@
 import { Router } from 'express'
 import { ExamQueryType, examsSchema } from '@/validations/exam.validation'
 import { validator } from '@/middlewares'
-import { getExams } from '@/controller/exam.controller'
+import PersistenceManager from '@/models/PersistenceMananger'
 
 const router = Router()
 
 router.get('/', validator.query(examsSchema), async (req, res) => {
-  const query = req.query as ExamQueryType
-
-  const exams = await getExams()
-
+  const exams = PersistenceManager.shared.getExams()
   res.json(exams.map(exam => exam.toJSON()))
 })
 

@@ -1,9 +1,12 @@
 import Course from './Course'
 import Degree from './Degree'
+import Exam from './Exam'
 import { courseChangeListener, getCourses } from '@/controller/course.controller'
 import { degreesChangeListener, getDegrees } from '@/controller/degree.controller'
+import { examsChangeListener, getExams } from '@/controller/exam.controller'
 
 class PersistenceManager {
+  private exams: Exam[] = []
   private courses: Course[] = []
   private degrees: Degree[] = []
 
@@ -15,6 +18,9 @@ class PersistenceManager {
 
     const degrees = await getDegrees()
     degrees.forEach(degree => this.addDegree(degree))
+
+    const exams = await getExams()
+    exams.forEach(exam => this.addExam(exam))
 
     courseChangeListener((type, course) => {
       if (type === 'added' || type === 'modified') {
@@ -31,7 +37,19 @@ class PersistenceManager {
         this.removeDegree(degree.id)
       }
     })
+
+    examsChangeListener((type, exam) => {
+      if (type === 'added' || type === 'modified') {
+        this.addExam(exam)
+      } else if (type === 'removed') {
+        this.removeExam(exam.id)
+      }
+    })
   }
+
+  // ========
+  // COURSES
+  // ========
 
   private addCourse(course: Course) {
     if (!this.doesCourseExist(course.id)) {
@@ -62,6 +80,10 @@ class PersistenceManager {
     return this.courses.find(course => course.id === id)
   }
 
+  // =========
+  // DEGREES
+  // =========
+
   private addDegree(degree: Degree) {
     if (!this.doesDegreeExist(degree.id)) {
       this.degrees.push(degree)
@@ -89,6 +111,39 @@ class PersistenceManager {
 
   public getDegree(id: string): Degree | undefined {
     return this.degrees.find(degree => degree.id === id)
+  }
+
+  // =========
+  // EXAMS
+  // =========
+
+  private addExam(exam: Exam) {
+    if (!this.doesExamExist(exam.id)) {
+      this.exams.push(exam)
+    } else {
+      const index = this.getExamIndex(exam.id)
+      this.exams[index] = exam
+    }
+  }
+
+  private removeExam(id: string) {
+    this.exams = this.exams.filter(exam => exam.id !== id)
+  }
+
+  private getExamIndex(id: string): number {
+    return this.exams.findIndex(exam => exam.id === id)
+  }
+
+  private doesExamExist(id: string): boolean {
+    return this.getExamIndex(id) !== -1
+  }
+
+  public getExams(): Exam[] {
+    return this.exams
+  }
+
+  public getExam(id: string): Exam | undefined {
+    return this.exams.find(exam => exam.id === id)
   }
 }
 
