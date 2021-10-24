@@ -41,7 +41,7 @@ const handler = (err: APIError, req: Request, res: any, _next: NextFunction): vo
 
   const response = {
     code: statusCode,
-    sentryId: res.sentry,
+    errorId: res.sentry,
     message,
     stack: env.nodeEnv === 'development' ? err.stack : undefined
   }
