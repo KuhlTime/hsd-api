@@ -6,8 +6,7 @@ name: Build and deploy Node.js app to Azure Web App - hsd-api
 on:
   push:
     branches:
-      - main
-  workflow_dispatch:
+      - deployment
 
 jobs:
   build:
@@ -21,11 +20,12 @@ jobs:
         with:
           node-version: '14.x'
 
-      # - name: npm install, build, and test
-      #  run: |
-      #    npm install
-      #    npm run build --if-present
-      #    npm run test --if-present
+      - name: npm install, build, test and clean
+        run: |
+          npm install
+          npm run build --if-present
+          npm run test --if-present
+          rm -rf node_modules
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
