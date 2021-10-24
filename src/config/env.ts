@@ -9,7 +9,8 @@ const envSchema = Joi.object({
   NODE_ENV: Joi.string().default('development'),
   SENTRY_DSN: Joi.string().allow(''),
   PORT: Joi.number().default(8080),
-  FIREBASE_SERVICE_ACC_BASE64: Joi.string().base64().required()
+  FIREBASE_SERVICE_ACC_BASE64: Joi.string().base64().required(),
+  URL: Joi.string().allow('').default('')
 }).unknown()
 
 // validate environment variables
@@ -44,5 +45,10 @@ export default {
    */
   firebaseServiceAccount: JSON.parse(
     Buffer.from(envVars.FIREBASE_SERVICE_ACC_BASE64, 'base64').toString()
-  )
+  ),
+
+  /**
+   * The url under which the server is running
+   */
+  url: envVars.URL as string
 }
