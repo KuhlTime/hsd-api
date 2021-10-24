@@ -6,12 +6,14 @@ import ManagedFirestoreDocument from './ManagedFirestoreDocument'
 class Degree extends ManagedFirestoreDocument {
   name: LocalizedString
   regulations: number
+  semesters: number
 
-  constructor(id: string, name: LocalizedString, regulations: number) {
+  constructor(id: string, name: LocalizedString, regulations: number, semesters: number) {
     super(id)
 
     this.name = name
     this.regulations = regulations
+    this.semesters = semesters
   }
 
   static converter: firestore.FirestoreDataConverter<Degree> = {
@@ -20,7 +22,7 @@ class Degree extends ManagedFirestoreDocument {
     },
     fromFirestore(snapshot: firestore.QueryDocumentSnapshot): Degree {
       const data = snapshot.data()
-      return new Degree(snapshot.id, data.name, data.regulations)
+      return new Degree(snapshot.id, data.name, data.regulations, data.semesters)
     }
   }
 
@@ -28,7 +30,8 @@ class Degree extends ManagedFirestoreDocument {
     return {
       id: this.id,
       name: this.name,
-      regulations: this.regulations
+      regulations: this.regulations,
+      semesters: this.semesters
     }
   }
 
