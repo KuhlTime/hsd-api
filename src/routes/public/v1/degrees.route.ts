@@ -7,17 +7,17 @@ import APIError from '@/models/APIError'
 
 const router = Router()
 
-router.get('/', async (req, res) => {
-  res.json(PersistenceManager.shared.getCourses())
+router.get('/', (req, res) => {
+  res.json(PersistenceManager.shared.getDegrees())
 })
 
 router.get('/:Id', validator.params(Joi.object({ Id: Joi.string().required() })), (req, res) => {
   const id = req.params.Id
-  const course = PersistenceManager.shared.getCourse(id)
+  const degree = PersistenceManager.shared.getDegree(id)
 
-  if (!course) throw new APIError(httpStatus.NOT_FOUND, `Could not find course with id: ${id}`)
+  if (!degree) throw new APIError(httpStatus.NOT_FOUND, `Could not find degree with id: ${id}`)
 
-  res.json(course)
+  res.json(degree)
 })
 
 export default router
