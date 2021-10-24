@@ -35,9 +35,6 @@
       "@env": [
         "src/config/env.ts"
       ],
-      "@log": [
-        "src/config/logger.ts"
-      ],
       "@lib/*": [
         "src/lib/*"
       ],

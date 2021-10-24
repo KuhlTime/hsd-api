@@ -1,11 +1,10 @@
 import * as Sentry from '@sentry/node'
 import * as Tracing from '@sentry/tracing'
 import app from '@config/express'
-import log from '@log'
 import env from '@env'
 
 if (!env.sentryDsn) {
-  log.warning('Sentry DSN not set. Skipping Sentry.')
+  console.warn('Sentry DSN not set. Skipping Sentry.')
 } else {
   // Initialize Sentry
   // https://docs.sentry.io/platforms/node/configuration/options/

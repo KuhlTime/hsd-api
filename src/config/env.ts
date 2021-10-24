@@ -1,7 +1,6 @@
 import * as dotenv from 'dotenv'
 import Joi from 'joi'
 import { env, exit } from 'process'
-import log from '@log'
 
 // load the .env file
 dotenv.config()
@@ -17,12 +16,12 @@ const envSchema = Joi.object({
 const { error, value: envVars } = envSchema.validate(env)
 
 if (error) {
-  log.error(`Config validation error: ${error.message}`)
+  console.error(`Config validation error: ${error.message}`)
   exit(1)
 }
 
 // log the environment nodejs is running in
-log.info(`Running in ${envVars.NODE_ENV} mode`)
+console.info(`Running in ${envVars.NODE_ENV} mode`)
 
 export default {
   /**

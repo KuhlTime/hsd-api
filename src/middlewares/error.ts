@@ -5,7 +5,6 @@
 import { Request, Response, NextFunction } from 'express'
 import httpStatus from 'http-status'
 import env from '@env'
-import log from '@log'
 import APIError from '@/models/APIError'
 
 /**
@@ -35,7 +34,7 @@ const converter = (err: Error, req: Request, res: Response, next: NextFunction):
  */
 const handler = (err: APIError, req: Request, res: any, _next: NextFunction): void => {
   const { statusCode, message } = err
-  log.error(`${req.path}: ${err.statusCode} - ${err.message}`)
+  console.error(`${req.path}: ${err.statusCode} - ${err.message}`)
 
   res.locals.errorMessage = err.message
 

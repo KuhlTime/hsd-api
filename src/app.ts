@@ -1,7 +1,6 @@
 import { json, RequestHandler, urlencoded } from 'express'
 import cors from 'cors'
 import compression from 'compression'
-import log from '@log'
 import Sentry from '@config/sentry'
 import env from '@env'
 import app from '@config/express'
@@ -48,5 +47,5 @@ app.use(middleware.error.handler)
 
 // start the server.
 app.listen(env.port, () => {
-  log.info(`Server is running on port ${env.port}`)
+  console.info(`Server is running on port ${env.port}`)
 })
