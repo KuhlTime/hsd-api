@@ -2,6 +2,8 @@
  * https://github.com/ptkdev/ptkdev-logger
  */
 import Logger, { LoggerOptions } from '@ptkdev/logger'
+import { existsSync, fstat, mkdirSync } from 'fs'
+import path from 'path'
 
 const options: LoggerOptions = {
   language: 'en',
@@ -22,6 +24,13 @@ const options: LoggerOptions = {
     debug_log: './logs/debug.log',
     error_log: './logs/errors.log'
   }
+}
+
+const folderPath = path.join(__dirname, 'logs')
+
+// create direcotry if not exists
+if (!existsSync(folderPath)) {
+  mkdirSync(folderPath)
 }
 
 const logger = new Logger(options)
