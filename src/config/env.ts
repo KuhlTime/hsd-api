@@ -9,12 +9,12 @@ dotenv.config()
 const envSchema = Joi.object({
   NODE_ENV: Joi.string().default('development'),
   SENTRY_DSN: Joi.string().allow(''),
-  PORT: Joi.number(),
+  PORT: Joi.number().default(8080),
   FIREBASE_SERVICE_ACC_BASE64: Joi.string().base64().required()
 }).unknown()
 
 // validate environment variables
-const { error, value: envVars } = envSchema.validate(process.env)
+const { error, value: envVars } = envSchema.validate(env)
 
 if (error) {
   log.error(`Config validation error: ${error.message}`)
@@ -33,7 +33,7 @@ export default {
   /**
    * The port to run the server on
    */
-  port: (envVars.PORT as number | undefined) || envVars.NODE_ENV === 'production' ? 80 : 3000,
+  port: envVars.PORT as number,
 
   /**
    * (Optional) The Sentry DSN to use for error reporting
