@@ -1,4 +1,5 @@
 import { firestore } from 'firebase-admin'
+import env from '@env'
 import ExamType from './ExamType'
 import LocalizedString from './LocalizedString'
 import ManagedFirestoreDocument from './ManagedFirestoreDocument'
@@ -59,9 +60,15 @@ class Exam extends ManagedFirestoreDocument {
   }
 
   toJSON(): Record<string, unknown> {
+    const course = PersistenceManager.shared.getCourse(this.course.id)
+
     return {
       id: this.id,
-      course: PersistenceManager.shared.getCourse(this.course.id),
+      course: {
+        id: course?.id,
+        name: course?.name,
+        reference: course?.dataURL
+      },
       description: this.description,
       duration: this.duration,
       examiners: this.examiners,
@@ -70,6 +77,10 @@ class Exam extends ManagedFirestoreDocument {
       type: this.type,
       semester: new Semester(this.timestamp).toJSON()
     }
+  }
+
+  get dataURL(): string {
+    return `${env.url}/v1/exams/${this.id}`
   }
 }
 

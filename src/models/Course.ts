@@ -1,9 +1,10 @@
 import { firestore } from 'firebase-admin'
+import env from '@env'
 import LocalizedString from './LocalizedString'
 import ManagedFirestoreDocument from './ManagedFirestoreDocument'
 import PersistenceManager from './PersistenceMananger'
 
-type DegreeReference = {
+type SemesterOfDegree = {
   degree: firestore.DocumentReference
   semesters: number[]
 }
@@ -17,7 +18,7 @@ class Course extends ManagedFirestoreDocument {
     [type: string]: number
   }
 
-  degrees: DegreeReference[]
+  inSemesterOfDegree: SemesterOfDegree[]
 
   constructor(
     id: string,
@@ -27,7 +28,7 @@ class Course extends ManagedFirestoreDocument {
     weeklyHours: {
       [type: string]: number
     },
-    degrees: DegreeReference[],
+    inSemesterOfDegree: SemesterOfDegree[],
     description?: LocalizedString
   ) {
     super(id)
@@ -36,7 +37,7 @@ class Course extends ManagedFirestoreDocument {
     this.name = name
     this.instructors = instructors
     this.weeklyHours = weeklyHours
-    this.degrees = degrees
+    this.inSemesterOfDegree = inSemesterOfDegree
     this.description = description
   }
 
@@ -52,7 +53,7 @@ class Course extends ManagedFirestoreDocument {
         data.name,
         data.instructors,
         data.weeklyHours,
-        data.degrees,
+        data.inSemesterOfDegree,
         data.description
       )
     }
@@ -66,13 +67,23 @@ class Course extends ManagedFirestoreDocument {
       instructors: this.instructors,
       name: this.name,
       weeklyHours: this.weeklyHours,
-      degrees: this.degrees.map(d => {
+      inSemesterOfDegree: this.inSemesterOfDegree.map(d => {
+        const degree = PersistenceManager.shared.getDegree(d.degree.id)
+
         return {
-          degree: PersistenceManager.shared.getDegree(d.degree.id)?.toJSON(),
+          degree: {
+            id: degree?.id,
+            name: degree?.name,
+            reference: degree?.dataURL
+          },
           semesters: d.semesters
         }
       })
     }
+  }
+
+  get dataURL(): string {
+    return `${env.url}/v1/courses/${this.id}`
   }
 }
 

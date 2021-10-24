@@ -1,4 +1,5 @@
 import { firestore } from 'firebase-admin'
+import env from '@env'
 import LocalizedString from './LocalizedString'
 import ManagedFirestoreDocument from './ManagedFirestoreDocument'
 
@@ -29,6 +30,10 @@ class Degree extends ManagedFirestoreDocument {
       name: this.name,
       regulations: this.regulations
     }
+  }
+
+  get dataURL(): string {
+    return `${env.url}/v1/degrees/${this.id}`
   }
 }
 
