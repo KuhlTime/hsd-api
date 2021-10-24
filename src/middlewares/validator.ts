@@ -21,4 +21,12 @@ const body =
     else next()
   }
 
-export { query, body }
+const params =
+  (schema: Schema) =>
+  (req: Request, res: Response, next: NextFunction): void => {
+    const { error } = schema.validate(req.params)
+    if (error) next(new APIError(httpStatus.BAD_REQUEST, error.message))
+    else next()
+  }
+
+export { query, body, params }

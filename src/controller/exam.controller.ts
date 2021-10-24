@@ -1,10 +1,16 @@
 import { db } from '@config/firebase'
 import Exam from '@/models/Exam'
-import { ExamQueryType } from '@/validations/exam.validation'
 
-async function getExams(q: ExamQueryType): Promise<Exam[]> {
-  const results = await db.collection('exams').get()
-  return results.docs.map(doc => doc.data() as Exam)
+const collection = db.collection('exams')
+
+async function getExams(): Promise<Exam[]> {
+  const results = await collection.withConverter(Exam.converter).get()
+  return results.docs.map(doc => doc.data())
 }
 
-export { getExams }
+async function getExam(id: string): Promise<Exam | undefined> {
+  const result = await collection.doc(id).withConverter(Exam.converter).get()
+  return result.data()
+}
+
+export { getExams, getExam }

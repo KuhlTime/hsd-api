@@ -4,48 +4,55 @@ import compression from 'compression'
 import Sentry from '@config/sentry'
 import env from '@env'
 import app from '@config/express'
+import syncrify from './lib/syncrify'
+import PersistenceManager from './models/PersistenceMananger'
 import Router from '@/routes'
 import * as middleware from '@/middlewares'
 
-// == Middlewares ==
+syncrify(async () => {
+  // Initialize the persistence manager
+  await PersistenceManager.shared.init()
 
-// setup express to parse request body as JSON
-app.use(json({ limit: '1mb' }))
-app.use(urlencoded({ extended: true, limit: '1mb' }))
+  // == Middlewares ==
 
-// setup CORS.
-app.use(cors())
+  // setup express to parse request body as JSON
+  app.use(json({ limit: '1mb' }))
+  app.use(urlencoded({ extended: true, limit: '1mb' }))
 
-// setup compression middle-ware.
-app.use(compression())
+  // setup CORS.
+  app.use(cors())
 
-// setup express to use Sentry as middle-ware.
-app.use(Sentry.Handlers.requestHandler() as RequestHandler)
-app.use(Sentry.Handlers.tracingHandler() as RequestHandler)
+  // setup compression middle-ware.
+  app.use(compression())
 
-// == Routes ==
+  // setup express to use Sentry as middle-ware.
+  app.use(Sentry.Handlers.requestHandler() as RequestHandler)
+  app.use(Sentry.Handlers.tracingHandler() as RequestHandler)
 
-// setup routes.
-app.use('/', Router)
+  // == Routes ==
 
-// every route that can not be resolved
-// will return a 404 error.
-app.use(middleware.notFound)
+  // setup routes.
+  app.use('/', Router)
 
-// == Error Handling ==
+  // every route that can not be resolved
+  // will return a 404 error.
+  app.use(middleware.notFound)
 
-// sentry error handler. (must be the first error handler)
-app.use(Sentry.Handlers.errorHandler())
+  // == Error Handling ==
 
-// convert any error to an APIError, if needed
-app.use(middleware.error.converter)
+  // sentry error handler. (must be the first error handler)
+  app.use(Sentry.Handlers.errorHandler())
 
-// return the error as JSON
-app.use(middleware.error.handler)
+  // convert any error to an APIError, if needed
+  app.use(middleware.error.converter)
 
-// == Server ==
+  // return the error as JSON
+  app.use(middleware.error.handler)
 
-// start the server.
-app.listen(env.port, () => {
-  console.info(`Server is running on port ${env.port}`)
+  // == Server ==
+
+  // start the server.
+  app.listen(env.port, () => {
+    console.info(`Server is running on port ${env.port}`)
+  })
 })

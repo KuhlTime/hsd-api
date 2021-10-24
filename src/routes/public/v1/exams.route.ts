@@ -7,8 +7,10 @@ const router = Router()
 
 router.get('/', validator.query(examsSchema), async (req, res) => {
   const query = req.query as ExamQueryType
-  const exams = await getExams(query)
-  res.json(exams)
+
+  const exams = await getExams()
+
+  res.json(exams.map(exam => exam.toJSON()))
 })
 
 export default router

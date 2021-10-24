@@ -1,35 +1,75 @@
-import Degree from './Degree'
+import { firestore } from 'firebase-admin'
 import ExamType from './ExamType'
 import LocalizedString from './LocalizedString'
+import ManagedFirestoreDocument from './ManagedFirestoreDocument'
+import PersistenceManager from './PersistenceMananger'
+import Semester from './Semester'
 
-class Exam {
-  id: number
-  degree: Degree
+class Exam extends ManagedFirestoreDocument {
+  course: firestore.DocumentReference
+  degree: firestore.DocumentReference
   description?: LocalizedString
   duration: number
-  examType: ExamType
-  examinationDate: Date
-  location: LocalizedString
   examiners: string[]
+  location?: LocalizedString
+  timestamp: Date
+  type: ExamType
 
   constructor(
-    id: number,
-    degree: Degree,
+    id: string,
+    course: firestore.DocumentReference,
+    degree: firestore.DocumentReference,
     duration: number,
-    examType: ExamType,
-    examinationDate: Date,
-    location: LocalizedString,
     examiners: string[],
-    description?: LocalizedString
+    timestamp: Date,
+    type: ExamType,
+    description?: LocalizedString,
+    location?: LocalizedString
   ) {
-    this.id = id
+    super(id)
+
+    this.course = course
     this.degree = degree
     this.description = description
     this.duration = duration
-    this.examType = examType
-    this.examinationDate = examinationDate
-    this.location = location
     this.examiners = examiners
+    this.location = location
+    this.timestamp = timestamp
+    this.type = type
+  }
+
+  static converter: firestore.FirestoreDataConverter<Exam> = {
+    toFirestore(exam: Exam): firestore.DocumentData {
+      return exam
+    },
+    fromFirestore(snapshot: firestore.QueryDocumentSnapshot): Exam {
+      const data = snapshot.data()
+      return new Exam(
+        snapshot.id,
+        data.course,
+        data.degree,
+        data.duration,
+        data.examiners,
+        (data.timestamp as firestore.Timestamp).toDate(),
+        data.type,
+        data.description,
+        data.location
+      )
+    }
+  }
+
+  toJSON(): Record<string, unknown> {
+    return {
+      id: this.id,
+      course: PersistenceManager.shared.getCourse(this.course.id),
+      description: this.description,
+      duration: this.duration,
+      examiners: this.examiners,
+      location: this.location,
+      timestamp: this.timestamp,
+      type: this.type,
+      semester: new Semester(this.timestamp).toJSON()
+    }
   }
 }
 

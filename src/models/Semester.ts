@@ -1,14 +1,24 @@
 class Semester {
-  year: number
   winter: boolean
-  from: Date
-  to: Date
+  year: number
 
-  constructor(year: number, winter: boolean, from: Date, to: Date) {
-    this.year = year
-    this.winter = winter
-    this.from = from
-    this.to = to
+  static wsBounds = {
+    startMonth: 10,
+    endMonth: 4
+  }
+
+  constructor(date: Date) {
+    this.winter =
+      date.getMonth() > Semester.wsBounds.startMonth ||
+      date.getMonth() <= Semester.wsBounds.endMonth
+    this.year = date.getFullYear()
+  }
+
+  toJSON(): Record<string, unknown> {
+    return {
+      winter: this.winter,
+      year: this.year
+    }
   }
 }
 
