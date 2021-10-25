@@ -10,7 +10,7 @@ router.use('/', publicRouter)
 router.get('/', (req: Request, res: Response) => {
   res.send({
     message: 'Welcome to the hsd-api.',
-    github: 'https://github.com/KuhlTime/hsd-exam-schedule',
+    github: 'https://github.com/KuhlTime/hsd-api',
     data: {
       courses: `${env.url}/v1/courses`,
       degrees: `${env.url}/v1/degrees`,
