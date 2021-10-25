@@ -63,12 +63,8 @@ class Exam extends ManagedFirestoreDocument {
     const course = PersistenceManager.shared.getCourse(this.course.id)
 
     return {
-      id: this.id,
-      course: {
-        id: course?.id,
-        name: course?.name,
-        reference: course?.dataURL
-      },
+      id: this.idURI,
+      course: course?.idURI,
       description: this.description,
       duration: this.duration,
       examiners: this.examiners,
@@ -79,8 +75,8 @@ class Exam extends ManagedFirestoreDocument {
     }
   }
 
-  get dataURL(): string {
-    return `${env.url}/v1/exams/${this.id}`
+  get idURI(): string {
+    return `/exam/${this.id}`
   }
 }
 

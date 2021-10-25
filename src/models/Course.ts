@@ -61,7 +61,7 @@ class Course extends ManagedFirestoreDocument {
 
   toJSON(): Record<string, unknown> {
     return {
-      id: this.id,
+      id: this.idURI,
       creditPoints: this.creditPoints,
       description: this.description,
       instructors: this.instructors,
@@ -71,19 +71,15 @@ class Course extends ManagedFirestoreDocument {
         const degree = PersistenceManager.shared.getDegree(d.degree.id)
 
         return {
-          degree: {
-            id: degree?.id,
-            name: degree?.name,
-            reference: degree?.dataURL
-          },
+          degree: degree?.idURI,
           semesters: d.semesters
         }
       })
     }
   }
 
-  get dataURL(): string {
-    return `${env.url}/v1/courses/${this.id}`
+  get idURI(): string {
+    return `/course/${this.id}`
   }
 }
 

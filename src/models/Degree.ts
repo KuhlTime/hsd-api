@@ -28,15 +28,15 @@ class Degree extends ManagedFirestoreDocument {
 
   toJSON(): Record<string, unknown> {
     return {
-      id: this.id,
+      id: this.idURI,
       name: this.name,
       regulations: this.regulations,
       semesters: this.semesters
     }
   }
 
-  get dataURL(): string {
-    return `${env.url}/v1/degrees/${this.id}`
+  get idURI(): string {
+    return `/degrees/${this.id}`
   }
 }
 
