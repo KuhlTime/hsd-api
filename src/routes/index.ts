@@ -13,6 +13,7 @@ router.get('/', (req: Request, res: Response) => {
     github: 'https://github.com/KuhlTime/hsd-exam-schedule',
     data: {
       courses: `${env.url}/v1/courses`,
+      degrees: `${env.url}/v1/degrees`,
       exams: `${env.url}/v1/exams`
     },
     author: {
