@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import Joi from 'joi'
 import httpStatus from 'http-status'
-import { ExamQueryType, examsSchema } from '@/validations/exam.validation'
+import { examsSchema } from '@/validations/exam.validation'
 import { validator } from '@/middlewares'
 import PersistenceManager from '@/models/PersistenceMananger'
 import APIError from '@/models/APIError'

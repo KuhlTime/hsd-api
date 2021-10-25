@@ -1,5 +1,4 @@
 import { firestore } from 'firebase-admin'
-import env from '@env'
 import LocalizedString from './LocalizedString'
 import ManagedFirestoreDocument from './ManagedFirestoreDocument'
 
