@@ -29,6 +29,9 @@ syncrify(async () => {
   app.use(Sentry.Handlers.requestHandler() as RequestHandler)
   app.use(Sentry.Handlers.tracingHandler() as RequestHandler)
 
+  // rate limiting
+  app.use(middleware.rateLimiter)
+
   // == Routes ==
 
   // setup routes.

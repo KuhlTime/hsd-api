@@ -10,7 +10,8 @@ const envSchema = Joi.object({
   SENTRY_DSN: Joi.string().allow(''),
   PORT: Joi.number().default(8080),
   FIREBASE_SERVICE_ACC_BASE64: Joi.string().base64().required(),
-  URL: Joi.string().allow('').default('')
+  URL: Joi.string().allow('').default(''),
+  SECRET_KEY: Joi.string().min(18).required()
 }).unknown()
 
 // validate environment variables
@@ -50,5 +51,10 @@ export default {
   /**
    * The url under which the server is running
    */
-  url: envVars.URL as string
+  url: envVars.URL as string,
+
+  /**
+   * The secret key to access the api
+   */
+  secretKey: envVars.SECRET_KEY as string
 }
