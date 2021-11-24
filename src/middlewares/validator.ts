@@ -16,7 +16,7 @@ const query =
 const body =
   (schema: Schema) =>
   (req: Request, res: Response, next: NextFunction): void => {
-    const { error } = schema.validate(req.query)
+    const { error } = schema.validate(req.body)
     if (error) next(new APIError(httpStatus.BAD_REQUEST, error.message))
     else next()
   }
