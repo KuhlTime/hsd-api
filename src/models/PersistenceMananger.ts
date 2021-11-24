@@ -1,14 +1,17 @@
 import Course from './Course'
 import Degree from './Degree'
 import Exam from './Exam'
+import CompactExam from './CompactExam'
 import { courseChangeListener, getCourses } from '@/controller/course.controller'
 import { degreesChangeListener, getDegrees } from '@/controller/degree.controller'
 import { examsChangeListener, getExams } from '@/controller/exam.controller'
+import { compactExamChangeListener } from '@/controller/compact-exam.controller'
 
 class PersistenceManager {
   private exams: Exam[] = []
   private courses: Course[] = []
   private degrees: Degree[] = []
+  private compactExams: CompactExam[] = []
 
   public static shared: PersistenceManager = new PersistenceManager()
 
@@ -43,6 +46,14 @@ class PersistenceManager {
         this.addExam(exam)
       } else if (type === 'removed') {
         this.removeExam(exam.id)
+      }
+    })
+
+    compactExamChangeListener((type, exam) => {
+      if (type === 'added' || type === 'modified') {
+        this.addCompactExam(exam)
+      } else if (type === 'removed') {
+        this.removeCompactExam(exam.id)
       }
     })
   }
@@ -144,6 +155,38 @@ class PersistenceManager {
 
   public getExam(id: string): Exam | undefined {
     return this.exams.find(exam => exam.id === id)
+  }
+  // =========
+  // COMPACT EXAMS
+  // =========
+
+  private addCompactExam(exam: CompactExam) {
+    if (!this.doesCompactExamExist(exam.id)) {
+      this.compactExams.push(exam)
+    } else {
+      const index = this.getCompactExamIndex(exam.id)
+      this.compactExams[index] = exam
+    }
+  }
+
+  private removeCompactExam(id: string) {
+    this.compactExams = this.compactExams.filter(exam => exam.id !== id)
+  }
+
+  private getCompactExamIndex(id: string): number {
+    return this.compactExams.findIndex(exam => exam.id === id)
+  }
+
+  private doesCompactExamExist(id: string): boolean {
+    return this.getCompactExamIndex(id) !== -1
+  }
+
+  public getCompactExams(): CompactExam[] {
+    return this.compactExams
+  }
+
+  public getCompactExam(id: string): CompactExam | undefined {
+    return this.compactExams.find(exam => exam.id === id)
   }
 }
 

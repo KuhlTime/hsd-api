@@ -7,13 +7,16 @@ import { upsertCompactExam } from '@/controller/compact-exam.controller'
 const router = Router()
 
 router.post('/', validator.body(CompactExamSchema), async (req, res) => {
-  const exam = req.body as CompactExam
+  const exam = {
+    ...req.body,
+    timestamp: new Date(req.body.timestamp)
+  } as CompactExam
 
   await upsertCompactExam(exam)
 
   res.send({
     success: true,
-    message: `Creation of exam '${exam.id}' successfull`
+    message: `Upsert '${exam.id}' successfull`
   })
 })
 

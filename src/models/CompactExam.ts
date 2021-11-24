@@ -70,12 +70,23 @@ class CompactExam extends ManagedFirestoreDocument {
 
   toJSON(): Record<string, unknown> {
     return {
-      message: 'Not implemented'
+      id: this.idURI,
+      code: this.code,
+      degree: this.degree,
+      duration: this.duration,
+      examiners: this.examiners,
+      examType: this.examType,
+      name: this.name,
+      regulations: this.regulations,
+      semester: this.semester,
+      timestamp: this.timestamp,
+      week: this.week,
+      description: this.description
     }
   }
 
   get idURI(): string {
-    return `/exam/${this.id}`
+    return `/exams/${this.id}`
   }
 }
 
