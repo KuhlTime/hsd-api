@@ -1,7 +1,6 @@
 import { Request, Response, Router } from 'express'
 import publicRouter from './public'
 import adminRouter from './admin'
-import env from '@env'
 import { apiToken } from '@/middlewares'
 
 // create a new top level router and export it
