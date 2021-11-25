@@ -6,6 +6,8 @@ This API should give students the possbility to access, relevant information suc
 - [ ] `Exam Data` (WIP)
 - [ ] `Module Information` (WIP)
 
+No user relevant data is ever recorded or stored anywhere!
+
 # 🌟 Endpoints
 
 There is a clear distinction between the administrative endpoints and the publicly available endpoints.
@@ -58,4 +60,4 @@ Example Body:
 - The admin API is protected by a secret key that can be set inside the environment variables. This key should not be exposed to anyone outside!
 
 # 🚩 Limitations
-- The app caches the firestore backend **in-memory** to **increase performance**. In case the data inside the backend gets to big, this can cause memory issues!
+- The app caches the firestore backend **in-memory** to **increase performance**. In case the data inside the backend gets too big, this could cause memory issues!
