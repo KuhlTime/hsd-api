@@ -48,5 +48,10 @@ Example Body:
 }
 ```
 
+# 🔒 Security
+
+- The API is using a rate limiter to restirct the amount of requests on a per IP basis.
+- The admin API is protected by a secret key that can be set inside the environment variables. This key should not be exposed to anyone outside!
+
 # 🚩 Limitations
 - The app caches the firestore backend **in-memory** to **increase performance**. In case the data inside the backend gets to big, this can cause memory issues!
