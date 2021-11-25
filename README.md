@@ -2,6 +2,10 @@
 
 ![Testing](https://github.com/KuhlTime/hsd-exam-schedule/actions/workflows/node.js.yml/badge.svg)
 
+This API should give students the possbility to access, relevant information such as:
+- [ ] `Exam Data` (WIP)
+- [ ] `Module Information` (WIP)
+
 # 🌟 Endpoints
 
 There is a clear distinction between the administrative endpoints and the publicly available endpoints.
