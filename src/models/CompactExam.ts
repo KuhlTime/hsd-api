@@ -10,7 +10,7 @@ class CompactExam extends ManagedFirestoreDocument {
   examType: ExamType
   name: string
   regulations: number
-  semester: number
+  semester?: string
   timestamp: Date
   week: number
   description?: string
@@ -25,9 +25,9 @@ class CompactExam extends ManagedFirestoreDocument {
     examType: ExamType,
     name: string,
     regulations: number,
-    semester: number,
     timestamp: Date,
     week: number,
+    semester?: string,
     description?: string,
     updated?: Date
   ) {
@@ -40,9 +40,9 @@ class CompactExam extends ManagedFirestoreDocument {
     this.examType = examType
     this.name = name
     this.regulations = regulations
-    this.semester = semester
     this.timestamp = timestamp
     this.week = week
+    this.semester = semester
     this.description = description
     this.updated = updated || new Date()
   }
@@ -63,9 +63,9 @@ class CompactExam extends ManagedFirestoreDocument {
         data.examType,
         data.name,
         data.regulations,
-        data.semester,
         data.timestamp,
         data.week,
+        data.semester,
         data.description,
         data.updated
       )
@@ -82,9 +82,9 @@ class CompactExam extends ManagedFirestoreDocument {
       examType: this.examType,
       name: this.name,
       regulations: this.regulations,
-      semester: this.semester,
       timestamp: this.timestamp,
       week: this.week,
+      semester: this.semester,
       description: this.description,
       updated: this.updated
     }

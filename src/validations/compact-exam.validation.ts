@@ -12,7 +12,7 @@ const CompactExamSchema = Joi.object({
     .required(),
   name: Joi.string().required(),
   regulations: Joi.number().required(),
-  semester: Joi.number(),
+  semester: Joi.string(),
   timestamp: Joi.string().isoDate().required(),
   week: Joi.number().required(),
   description: Joi.string(),
