@@ -9,7 +9,8 @@ const router = Router()
 router.post('/', validator.body(CompactExamSchema), async (req, res) => {
   const exam = {
     ...req.body,
-    timestamp: new Date(req.body.timestamp)
+    timestamp: new Date(req.body.timestamp),
+    updated: req.body.updated ? new Date(req.body.updated) : new Date()
   } as CompactExam
 
   await upsertCompactExam(exam)

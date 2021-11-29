@@ -14,6 +14,7 @@ class CompactExam extends ManagedFirestoreDocument {
   timestamp: Date
   week: number
   description?: string
+  updated: Date
 
   constructor(
     id: string,
@@ -27,7 +28,8 @@ class CompactExam extends ManagedFirestoreDocument {
     semester: number,
     timestamp: Date,
     week: number,
-    description?: string
+    description?: string,
+    updated?: Date
   ) {
     super(id)
 
@@ -42,6 +44,7 @@ class CompactExam extends ManagedFirestoreDocument {
     this.timestamp = timestamp
     this.week = week
     this.description = description
+    this.updated = updated || new Date()
   }
 
   static converter: firestore.FirestoreDataConverter<CompactExam> = {
@@ -63,7 +66,8 @@ class CompactExam extends ManagedFirestoreDocument {
         data.semester,
         data.timestamp,
         data.week,
-        data.description
+        data.description,
+        data.updated
       )
     }
   }
@@ -81,7 +85,8 @@ class CompactExam extends ManagedFirestoreDocument {
       semester: this.semester,
       timestamp: this.timestamp,
       week: this.week,
-      description: this.description
+      description: this.description,
+      updated: this.updated
     }
   }
 
