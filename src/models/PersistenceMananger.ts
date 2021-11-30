@@ -229,8 +229,8 @@ class PersistenceManager {
 
     selectedExams.forEach(exam => {
       cal.createEvent({
-        start: exam.timestamp,
-        end: moment(exam.timestamp).add(exam.duration, 'minutes').toDate(),
+        start: moment(exam.timestamp),
+        end: moment(exam.timestamp).add(exam.duration, 'minutes'),
         summary: exam.name,
         description: exam.description,
         location: ''
