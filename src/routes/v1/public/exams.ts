@@ -1,7 +1,5 @@
 import { Router } from 'express'
 import PersistenceManager from '@/models/PersistenceMananger'
-import { validator } from '@/middlewares'
-import IdSchema from '@/validations/id.validator'
 
 const router = Router()
 
@@ -10,7 +8,7 @@ router.get('/', async (req, res) => {
   res.json(exams)
 })
 
-router.get('/:Id', validator.query(IdSchema), (req, res) => {
+router.get('/:Id', (req, res) => {
   const exam = PersistenceManager.shared.getCompactExam(req.params.Id)
   res.json(exam)
 })
