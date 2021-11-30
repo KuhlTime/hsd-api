@@ -2,7 +2,7 @@
 
 ![Testing](https://github.com/KuhlTime/hsd-exam-schedule/actions/workflows/node.js.yml/badge.svg)
 
-This API should give students the possbility to access, relevant information such as:
+This API should give students the possibility to access, relevant information such as:
 - [ ] `Exam Data` (WIP)
 - [ ] `Module Information` (WIP)
 
@@ -21,6 +21,14 @@ Returns an array of all the available exams as JSON.
 **GET `/v1/exams/:Id`**:
 
 By providing an exam identifier, only one particular exam is getting returned by the API.
+
+**GET `/v1/degrees`**:
+
+Returns an array of all the available degrees.
+
+**GET `/v1/examiners`**:
+
+Returns an array of all the available examiners of all the captured exams.
 
 ## 🥷 Admin `/v1/admin`
 
@@ -56,8 +64,8 @@ Example Body:
 
 # 🔒 Security
 
-- The API is using a rate limiter to restirct the amount of requests on a per IP basis.
+- The API is using a rate limiter to restrict the amount of requests on a per-IP basis.
 - The admin API is protected by a secret key that can be set inside the environment variables. This key should not be exposed to anyone outside!
 
 # 🚩 Limitations
-- The app caches the firestore backend **in-memory** to **increase performance**. In case the data inside the backend gets too big, this could cause memory issues!
+- The app caches the Firestore backend **in-memory** to **increase performance**. In case the data inside the backend gets too big, this could cause memory issues!
