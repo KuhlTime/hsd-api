@@ -30,6 +30,14 @@ Returns an array of all the available degrees.
 
 Returns an array of all the available examiners of all the captured exams.
 
+**GET `/v1/ical/:Ids`**:
+
+Returns a ical file containing all the exams with the provided ids. The Ids must be separated by a comma.
+
+**GET `/v1/ical/test`**:
+
+A ical server that returns a test calendar on every request.
+
 ## 🥷 Admin `/v1/admin`
 
 The admin endpoints are only available by providing the defined API secret inside the `Authorization` header.
