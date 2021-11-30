@@ -1,3 +1,5 @@
+import ical, { ICalCalendar } from 'ical-generator'
+import moment from 'moment'
 import Course from './Course'
 import Degree from './Degree'
 import Exam from './Exam'
@@ -156,6 +158,7 @@ class PersistenceManager {
   public getExam(id: string): Exam | undefined {
     return this.exams.find(exam => exam.id === id)
   }
+
   // =========
   // COMPACT EXAMS
   // =========
@@ -189,12 +192,52 @@ class PersistenceManager {
     return this.compactExams.find(exam => exam.id === id)
   }
 
+  public getCompactExamsByIds(ids: string[]): CompactExam[] {
+    return this.compactExams.filter(exam => ids.includes(exam.id))
+  }
+
   public getCompactExamDegress(): Set<string> {
     return new Set(this.compactExams.map(exam => exam.degree))
   }
 
   public getCompactExamExaminers(): Set<string> {
     return new Set(this.compactExams.map(exam => exam.examiners).flat())
+  }
+
+  /**
+   * ICAL
+   */
+
+  public createTestCalender(): ICalCalendar {
+    const cal = ical({ name: 'Tester' })
+
+    cal.createEvent({
+      start: moment().toDate(),
+      end: moment().add(1, 'hours').toDate(),
+      summary: 'Updating Test Event',
+      description:
+        'This is a test event which updates automatically every time the calender makes a new request.'
+    })
+
+    return cal
+  }
+
+  public createCalenderForExams(ids: string[], name: string | undefined = undefined): ICalCalendar {
+    const selectedExams = this.getCompactExamsByIds(ids)
+
+    const cal = ical({ name: name || 'HSD Prüfungen' })
+
+    selectedExams.forEach(exam => {
+      cal.createEvent({
+        start: exam.timestamp,
+        end: moment(exam.timestamp).add(exam.duration, 'minutes').toDate(),
+        summary: exam.name,
+        description: exam.description,
+        location: ''
+      })
+    })
+
+    return cal
   }
 }
 
