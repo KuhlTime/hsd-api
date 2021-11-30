@@ -188,6 +188,14 @@ class PersistenceManager {
   public getCompactExam(id: string): CompactExam | undefined {
     return this.compactExams.find(exam => exam.id === id)
   }
+
+  public getCompactExamDegress(): Set<string> {
+    return new Set(this.compactExams.map(exam => exam.degree))
+  }
+
+  public getCompactExamExaminers(): Set<string> {
+    return new Set(this.compactExams.map(exam => exam.examiners).flat())
+  }
 }
 
 export default PersistenceManager

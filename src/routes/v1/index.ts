@@ -12,7 +12,9 @@ router.use('/', publicRouter)
 router.get('/', (req: Request, res: Response) => {
   res.send({
     routes: {
-      exams: `/v1/exams`
+      exams: `/v1/exams`,
+      degress: '/v1/degress',
+      examiners: '/v1/examiners'
     }
   })
 })
