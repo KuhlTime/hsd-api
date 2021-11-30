@@ -13,7 +13,9 @@ router.get('/', (req, res) => {
     },
     routes: {
       v1: {
-        exams: '/v1/exams'
+        exams: '/v1/exams',
+        degrees: '/v1/degrees',
+        courses: '/v1/examiners'
       }
     }
   })
