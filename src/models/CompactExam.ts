@@ -63,11 +63,11 @@ class CompactExam extends ManagedFirestoreDocument {
         data.examType,
         data.name,
         data.regulations,
-        data.timestamp,
+        data.timestamp.toDate(),
         data.week,
         data.semester,
         data.description,
-        data.updated
+        data.updated.toDate()
       )
     }
   }
